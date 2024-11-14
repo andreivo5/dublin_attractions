@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    margin: 50px auto;
+}
+
+.body {
+    position: relative;
+    width: 1000px;
+    max-width: 100%;
+    height: 140vh; /* Make the container take full viewport height */
+    margin: 20px auto;
+    border: 1px solid #dddd;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+/* Image Section */
+.box-1 {
+    width: 50%; /* Ensure the image section takes up 50% of the container width */
+    height: 100%; /* Ensure the image section takes up the full height of the container */
+    overflow: hidden; /* Hide any overflow from the image */
+    position: relative; /* Ensure absolute positioning works within */
+}
+
+.box-1 img {
+    width: 100%; /* Make the image span the full width of the container */
+    height: 100%; /* Ensure the image spans the full height */
+    object-fit: cover; /* Ensure the image covers the area without stretching */
+}
+
+/* Form Section */
+.box-2 {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100%; /* Make the form section fill the height */
+    
+    position: relative;
+}
+
+.content {
+    width: 100%;
+    max-width: 400px;
+    padding-bottom: 20px; /* Space at the bottom of the form */
+}
+
+.h-1 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.text-muted {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Button Styles */
+.btn.btn-primary, .btn.btn-secondary {
+    background-color: transparent;
+    color: #ee82ee;
+    border: 1px solid #ee82ee;
+    padding: 10px 20px;
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-block; /* Ensure they stay on the same line */
+    width: 100%; /* Allow the buttons to take full width of the form */
+    max-width: 400px; /* Ensure buttons are consistent in width */
+}
+
+button[type="button"], button[type="submit"] {
+    margin-top: 10px;
+}
+
+/* Add specific margin adjustments for the buttons if needed */
+button[type="submit"] {
+    margin-top: 20px; /* Space between the buttons */
+}
+
+button[type="button"] {
+    margin-top: 10px; /* Matching margin with submit button */
+}
+
+.map-container {
+    height: 300px;
+    width: 100%;
+    margin: 20px 0;
+    border: 1px solid #dddd;
+    border-radius: 8px;
+}
+
+.footer {
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+@media (max-width: 767px) {
+    .body {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+    }
+
+    .box-1,
+    .box-2 {
+        width: 100%;
+        height: auto;
+    }
+
+    .box-2 {
+        padding: 10px;
+    }
+}

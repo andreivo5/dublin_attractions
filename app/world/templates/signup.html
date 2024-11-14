@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - Dublin Tourist Attractions{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="body d-md-flex align-items-center justify-content-center">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+
+        <!-- Image Section -->
+        <div class="box-1 mt-md-0 mt-5">
+            <img src="https://i.pinimg.com/736x/3f/cc/71/3fcc710a992bbbdb00d58d802322d426.jpg" alt="Dublin Attractions">
+        </div>
+
+        <!-- Form Section -->
+        <div class="box-2 d-flex flex-column justify-content-center align-items-center h-100">
+            <div class="content mt-5">
+                <h2 class="mb-1 h-1">Sign Up</h2>
+                <p class="text-muted mb-2">Create an account to explore Dublin's attractions.</p>
+
+                <form method="POST" action="{% url 'signup' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <!-- Hidden inputs for latitude and longitude -->
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+
+                    <!-- Map for location selection -->
+                    <div id="map" class="map-container"></div>
+                    <button type="button" class="btn btn-secondary" onclick="detectLocation()">Detect Location</button>
+
+                    <button type="submit" class="btn btn-primary mt-3">Sign Up</button>
+                </form>
+
+                <div class="mt-3">
+                    <p class="mb-0 text-muted">Already have an account?</p>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Leaflet and JavaScript for map and geolocation -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([53.3498, -6.2603], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker;
+    map.on('click', function(e) {
+        const { lat, lng } = e.latlng;
+
+        if (marker) {
+            marker.setLatLng([lat, lng]);
+        } else {
+            marker = L.marker([lat, lng]).addTo(map);
+        }
+
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
+    });
+
+    function detectLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+
+                map.setView([lat, lng], 14);
+                if (marker) {
+                    marker.setLatLng([lat, lng]);
+                } else {
+                    marker = L.marker([lat, lng]).addTo(map);
+                }
+
+                document.getElementById('latitude').value = lat;
+                document.getElementById('longitude').value = lng;
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+</script>
+{% endblock %}

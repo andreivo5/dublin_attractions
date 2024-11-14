@@ -1,0 +1,40 @@
+version: '3.8'
+ 
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+ 
+  pgadmin4:
+    image: dpage/pgadmin4
+    ports:
+      - "20080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: c21342953@mytudublin.ie
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgis
+ 
+  postgis:
+    image: postgis/postgis
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: gis
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+ 
+  app:
+    build: ./app
+    command: uwsgi --ini /app/uwsgi.ini
+    volumes:
+      - ./app:/app
+    depends_on:
+      - postgis
